@@ -61,7 +61,7 @@ void* malloc(unsigned size) {
     return NULL;
 }
 
-static int brk(void* end_data_segment) {
+static long brk(void* end_data_segment) {
     // brk syscall number is 12
     // parameter is boundery address want to set, return value is the actually address been set
     //
@@ -70,10 +70,8 @@ static int brk(void* end_data_segment) {
     // The only message I find is source code:
     // https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/mm/mmap.c
     //
-    asm( "mov $12,%%rax \n\t"
-         "mov %0,%%rdi \n\t"
-         "syscall \n\t"
-         :: "m"(end_data_segment));
+    asm("syscall \n\t"
+        ::"a"(12), "D"(end_data_segment));
     // syscall return to rax, which is conform to the calling convention
     // so no need to write function return statement
 }

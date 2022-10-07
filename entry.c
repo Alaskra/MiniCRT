@@ -27,11 +27,41 @@ void mini_crt_entry() {
     asm("mov %%rbp,%0 \n\t":"=r"(ebp_reg));
     argc = *(int*)(ebp_reg + 4);
     argv = (char **)(ebp_reg + 8);
-    // todo: crt initialize
-    // if (!mini_crt_heap_init())
-        // crt_fatal_error("heap initialize failed");
-    // if (!mini_crt_io_init())
-        // crt_fatal_error("IO initialize failed");
+    if (!mini_crt_heap_init())
+        crt_fatal_error("heap initialize failed");
+    if (!mini_crt_io_init())
+        crt_fatal_error("IO initialize failed");
     ret = main(argc, argv);
     exit(ret);
+}
+
+void print_int(unsigned i) {
+    // for debug
+    char a1[100]="hhhhhhhhhhhhhhhhhhh\nxxxxx";
+    int idx = 0;
+    while (i!=0) {
+        a1[idx++] = '0'+i%10;
+        i = i/10;
+    }
+    fwrite(a1, 1, 20, stdout);
+}
+
+void test_stdio() {
+    char a1[100]="hhhhhhhhhhhhhhhhhhhhhh";
+    /* FILE *fp = fopen("CMakeLists.txt", "r+"); */
+    FILE *fp;
+    fp = fopen("test.txt", "w+");
+    fwrite("asdasdasd", 1, 9, fp);
+    fclose(fp);
+    fp = fopen("test.txt", "r");
+    fread(a1, 1, 9, fp);
+    fwrite(a1, 1, 20, stdout);
+    fclose(fp);
+}
+
+int main(int argc, char* argv[]){
+    if (!mini_crt_heap_init())
+        crt_fatal_error("heap initialize failed");
+    test_stdio();
+    exit(0);
 }
