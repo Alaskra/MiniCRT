@@ -47,7 +47,7 @@ void print_int(unsigned i) {
 }
 
 void test_stdio() {
-    char a1[100]="hhhhhhhhhhhhhhhhhhhhhh";
+    char a1[100]="hhhhhhhhhhhhhhhhhhh\nxxxxx";
     /* FILE *fp = fopen("CMakeLists.txt", "r+"); */
     FILE *fp;
     fp = fopen("test.txt", "w+");
@@ -56,12 +56,27 @@ void test_stdio() {
     fp = fopen("test.txt", "r");
     fread(a1, 1, 9, fp);
     fwrite(a1, 1, 20, stdout);
+    // output: asdasdasdhhhhhhhhhh
     fclose(fp);
+}
+
+void test_string() {
+    char a1[100]="hhhhhhhhhhhhhhhhhhh\n"; // 19 h
+    char *t = "true\n";
+    if(strlen(a1) == 20)
+        fwrite(t, 1, 5, stdout);  // output: true
+    itoa(12345, a1, 10);
+    fwrite(a1, 1, 20, stdout);  // output: 12345
+    strcpy(a1, "54321");
+    fwrite(a1, 1, 20, stdout);  // output: 54321
+    if(strcmp("123", "124") == -1)
+        fwrite(t, 1, 5, stdout);  // output: true
 }
 
 int main(int argc, char* argv[]){
     if (!mini_crt_heap_init())
         crt_fatal_error("heap initialize failed");
     test_stdio();
+    test_string();
     exit(0);
 }

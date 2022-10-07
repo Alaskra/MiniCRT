@@ -1,4 +1,5 @@
 #pragma once
+
 // entry.c
 void print_int(unsigned i);
 
@@ -25,3 +26,9 @@ int fread(void *buf, unsigned size, int count, FILE* stream);
 int fwrite(const void *buf, unsigned size, int count, FILE* stream);
 int fclose(FILE* fp);
 int fseek(FILE* fp, int offset, int set);
+
+// string.c
+char *itoa(int n, char *str, int radix);
+int strcmp(const char *src, const char *dst);
+char *strcpy(char *dst, const char *src);
+int strlen(const char *str);
