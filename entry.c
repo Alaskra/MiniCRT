@@ -73,10 +73,16 @@ void test_string() {
         fwrite(t, 1, 5, stdout);  // output: true
 }
 
+void test_printf() {
+    printf("hello %s, %d %d%d%d%d%d\n", "world", 3,2,1,6,5,4);
+    // output: hello world, 3 21654
+}
+
 int main(int argc, char* argv[]){
     if (!mini_crt_heap_init())
         crt_fatal_error("heap initialize failed");
     test_stdio();
     test_string();
-    exit(0);
+    test_printf();
+    /* exit(0); */
 }

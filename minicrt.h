@@ -32,3 +32,22 @@ char *itoa(int n, char *str, int radix);
 int strcmp(const char *src, const char *dst);
 char *strcpy(char *dst, const char *src);
 int strlen(const char *str);
+
+// printf.c
+// according to x86 64 bit calling convention, function parameters are stored in register first
+// the following code are invalid
+// #define va_list char*
+// #define va_start(ap,arg) (ap=(va_list)&arg+sizeof(arg))
+// #define va_arg(ap,t) (*(t*)((ap+=sizeof(t))-sizeof(t)))
+// #define va_end(ap) (ap=(va_list)0)
+
+// use gcc builtin function
+#define va_list __builtin_va_list
+#define va_arg(ap, type) __builtin_va_arg(ap, type)
+#define va_start(v, l) __builtin_va_start(v, l)
+#define va_end(v) __builtin_va_end(v)
+int fputc(char c, FILE *stream);
+int fputs(const char *str, FILE *stream);
+int vprintf(FILE *stream, const char *format, va_list arglist);
+int printf(const char *format, ...);
+int fprintf(FILE *stream, const char *format, ...);

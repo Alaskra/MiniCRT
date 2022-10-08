@@ -9,4 +9,4 @@ project (MiniCRT)
 # Add an executable
 # add_library(minicrt STATIC entry.c)
 # add_library(malloc STATIC malloc.c)
-add_executable(hello entry.c malloc.c stdio.c string.c)
+add_executable(hello entry.c malloc.c stdio.c string.c printf.c)

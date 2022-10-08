@@ -65,10 +65,9 @@ static long brk(void* end_data_segment) {
     // brk syscall number is 12
     // parameter is boundery address want to set, return value is the actually address been set
     //
-    // it is different from unistd.h's brk()
-    // I can't find the document about syscall brk(if you find please tell me)
-    // The only message I find is source code:
-    // https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/mm/mmap.c
+    // you can find the usage of syscall brk by `man 2 brk`
+    // although it's about glibc's brk
+    // you can find there difference in section C library/kernel differences
     //
     asm("syscall \n\t"
         ::"a"(12), "D"(end_data_segment));
