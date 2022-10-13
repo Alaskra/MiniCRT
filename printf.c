@@ -8,14 +8,14 @@ int fputs(const char *str, FILE *stream) {
     return fwrite(str, 1, strlen(str), stream);
 }
 
-int vprintf(FILE *stream, const char *format, va_list arglist) {
+static int vprintf(FILE *stream, const char *format, va_list arglist) {
     int translating = 0;
     int ret = 0;
-    for(char *p = format; *p != 0; p++) {
+    for(const char *p = format; *p != 0; p++) {
         if(translating) {
             switch(*p) {
                 case 's':
-                    char *str = va_arg(arglist, const char*);
+                    char *str = va_arg(arglist, char*);
                     if(fputs(str, stream) < 0)
                         return -1;
                     ret += strlen(str);

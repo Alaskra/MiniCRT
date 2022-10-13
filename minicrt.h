@@ -1,12 +1,18 @@
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // entry.c
 void print_int(unsigned i);
 
 // malloc.c
-#define NULL 0
+#define NULL (0)
 int mini_crt_heap_init();
 void* malloc(unsigned size);
+void free(void *ptr);
+static long brk(void* end_data_segment);
 
 // stdio.c
 typedef struct FILE {
@@ -34,6 +40,7 @@ char *strcpy(char *dst, const char *src);
 int strlen(const char *str);
 
 // printf.c
+// only valid in 32 bit system
 // according to x86 64 bit calling convention, function parameters are stored in register first
 // the following code are invalid
 // #define va_list char*
@@ -48,6 +55,18 @@ int strlen(const char *str);
 #define va_end(v) __builtin_va_end(v)
 int fputc(char c, FILE *stream);
 int fputs(const char *str, FILE *stream);
-int vprintf(FILE *stream, const char *format, va_list arglist);
 int printf(const char *format, ...);
 int fprintf(FILE *stream, const char *format, ...);
+static int vprintf(FILE *stream, const char *format, va_list arglist);
+
+// internal
+void do_global_ctors();
+void mini_crt_call_exit_routine();
+
+// atexit
+typedef void (*atexit_func_t) (void);
+int atexit(atexit_func_t func);
+
+#ifdef __cplusplus
+}
+#endif
