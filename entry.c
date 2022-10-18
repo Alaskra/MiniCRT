@@ -3,8 +3,7 @@
 extern int main(int argc, char* argv[]);
 
 void exit(int exitCode) {
-    // todo: atexit() and c++ deconstructor function
-    // mini_crt_call_exit_routine();
+    mini_crt_call_exit_routine();
     // exit syscall number is 60
     asm("syscall \n\t"
         ::"a"(60), "D"(exitCode));
@@ -28,6 +27,7 @@ void mini_crt_entry() {
         crt_fatal_error("heap initialize failed");
     if (!mini_crt_io_init())
         crt_fatal_error("IO initialize failed");
+    do_global_ctors();
     ret = main(argc, argv);
     exit(ret);
 }

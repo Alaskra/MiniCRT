@@ -43,10 +43,7 @@ void test_printf() {
     // output: hello world, 3 21654
 }
 
-int main(int argc, char* argv[]){
-    /* test_stdio(); */
-    /* test_string(); */
-    /* test_printf(); */
+void test_example(int argc, char* argv[]) {
     FILE *fp;
     char **v = malloc(argc*sizeof(char*));
     for(int i = 0; i < argc; i++) {
@@ -65,4 +62,26 @@ int main(int argc, char* argv[]){
         fputc(c, stdout);
     }
     fclose(fp);
+}
+
+void print_exit() {
+    printf("exit!\n");
+}
+
+void print_exit1() {
+    printf("exit1!\n");
+}
+
+void test_atexit() {
+    atexit(print_exit);
+    atexit(print_exit1);
+}
+
+int main(int argc, char* argv[]){
+    /* test_stdio(); */
+    /* test_string(); */
+    /* test_printf(); */
+    /* test_example(argc, argv); */
+    test_atexit();
+    printf("hello, world!\n");
 }
