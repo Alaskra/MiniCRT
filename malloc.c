@@ -7,7 +7,7 @@ typedef struct _heap_header {
     } type;
     // size include header size
     // "unsigned" is shorthand for "unsigned int"
-    unsigned size;
+    unsigned long size;
     struct _heap_header *next;
     struct _heap_header *prev;
 } heap_header;
@@ -21,6 +21,7 @@ void free(void *ptr) {
     heap_header* header = (heap_header*)ADDR_ADD(ptr, -HEADER_SIZE);
     if(header->type != HEAP_BLOCK_USED)
         return;
+    header->type = HEAP_BLOCK_FREE;
     heap_header* header_next = header->next;
     if(header_next != NULL && header_next->type == HEAP_BLOCK_FREE) {
         header->size += header_next->size;
@@ -37,7 +38,7 @@ void free(void *ptr) {
     }
 }
 
-void* malloc(unsigned size) {
+void* malloc(unsigned long size) {
     if(size == 0)
         return NULL;
     heap_header* p = list_head;

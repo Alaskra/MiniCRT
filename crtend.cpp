@@ -1,5 +1,6 @@
-typedef void (*ctor_func)(void);
+#include "minicrt.h"
 
-ctor_func ctors_end[1] __attribute__ ((section(".ctors"))) = {
-    (ctor_func) -1
+// same as comment in crtbegin.cpp
+void_func ctors_end[1] __attribute__ ((section(".init_array"))) = {
+    (void_func) -1
 };

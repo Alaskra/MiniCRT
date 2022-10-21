@@ -81,7 +81,7 @@ int main(int argc, char* argv[]){
     /* test_stdio(); */
     /* test_string(); */
     /* test_printf(); */
-    /* test_example(argc, argv); */
+    test_example(argc, argv);
     test_atexit();
     printf("hello, world!\n");
 }

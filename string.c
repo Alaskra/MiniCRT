@@ -55,6 +55,7 @@ char *strcpy(char *dst, const char *src) {
         idx++;
     }
     dst[idx] = src[idx];
+    return dst;
 }
 
 int strlen(const char *str) {

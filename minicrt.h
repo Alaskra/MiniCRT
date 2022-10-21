@@ -10,7 +10,7 @@ void print_int(unsigned i);
 // malloc.c
 #define NULL (0)
 int mini_crt_heap_init();
-void* malloc(unsigned size);
+void* malloc(unsigned long size);
 void free(void *ptr);
 static long brk(void* end_data_segment);
 
@@ -67,9 +67,67 @@ void mini_crt_call_exit_routine();
 typedef void (*atexit_func_t) (void);
 int atexit(atexit_func_t func);
 
-// ctor
-typedef void (*ctor_func)(void);
+typedef void (*void_func)(void);
 
 #ifdef __cplusplus
+
+extern void * __dso_handle;
+} // end of extern "C"
+
+// iostream and string
+namespace std{
+    class ofstream {
+    protected:
+        FILE* fp;
+        ofstream(const ofstream&);
+    public:
+        enum openmode{in =1, out=2, binary = 4, trunc = 8};
+
+        ofstream();
+        explicit ofstream(const char* filename, ofstream::openmode md = ofstream::out);
+        ~ofstream();
+        ofstream& operator<<(char c);
+        ofstream& operator<<(int n);
+        ofstream& operator<<(const char* str);
+        ofstream& operator<<(ofstream& (*)(ofstream&));
+        void open(const char* filename, ofstream::openmode md = ofstream::out);
+        void close();
+
+        ofstream& write(const char* buf, unsigned size);
+    };
+
+    inline ofstream& endl(ofstream& o) {
+        return o<<'\n';
+    }
+
+    class stdout_stream : public ofstream {
+    public:
+        stdout_stream();
+    };
+
+    extern stdout_stream cout;
+
+    class string {
+        unsigned len;
+        char* pbuf;
+
+    public:
+        explicit string(const char* str);
+        string(const string&);
+        ~string();
+
+        string& operator = (const string&);
+        string& operator = (const char* s);
+        // https://www.learncpp.com/cpp-tutorial/overloading-the-subscript-operator/
+        // The non-const version will be used with non-const objects,
+        // and the const version with const-objects.
+        const char& operator[] (unsigned idx) const;
+        char& operator[] (unsigned idx);
+
+        const char* c_str() const;
+        unsigned length() const;
+        unsigned size() const;
+    };
+    ofstream& operator<<(ofstream& o, const string& s);
 }
 #endif
