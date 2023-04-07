@@ -1,7 +1,7 @@
 #include "minicrt.h"
 
 char *itoa(int n, char *str, int base) {
-    char *digit = "0123456789abcdefghijklmnopqrstuvwxyz";
+    const char *digit = "0123456789abcdefghijklmnopqrstuvwxyz";
     int idx = 0;
     int sign = 0;
     if(n == 0) {

@@ -5,7 +5,7 @@ extern "C" {
 #endif
 
 // entry.c
-void print_int(unsigned i);
+void mini_crt_entry();
 
 // malloc.c
 #define NULL (0)
@@ -64,8 +64,10 @@ void do_global_ctors();
 void mini_crt_call_exit_routine();
 
 // atexit
+typedef void (*cxa_func_t)(void*);
 typedef void (*atexit_func_t) (void);
 int atexit(atexit_func_t func);
+int __cxa_atexit(cxa_func_t func, void *arg, void *unused);
 
 typedef void (*void_func)(void);
 

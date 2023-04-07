@@ -22,7 +22,6 @@ int register_atexit(atexit_func_t func, void *arg, int is_cxa) {
 }
 
 // gcc global object deconstruction calls __cxa_atexit
-typedef void (*cxa_func_t)(void*);
 int __cxa_atexit(cxa_func_t func, void *arg, void *unused) {
     return register_atexit((atexit_func_t)func, arg, 1);
 }

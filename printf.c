@@ -11,18 +11,20 @@ int fputs(const char *str, FILE *stream) {
 static int vprintf(FILE *stream, const char *format, va_list arglist) {
     int translating = 0;
     int ret = 0;
+    char *str;
+    char buf[20];
+    int a;
     for(const char *p = format; *p != 0; p++) {
         if(translating) {
             switch(*p) {
                 case 's':
-                    char *str = va_arg(arglist, char*);
+                    str = va_arg(arglist, char*);
                     if(fputs(str, stream) < 0)
                         return -1;
                     ret += strlen(str);
                     break;
                 case 'd':
-                    char buf[20];
-                    int a = va_arg(arglist, int);
+                    a = va_arg(arglist, int);
                     itoa(a, buf, 10);
                     if(fputs(buf, stream) < 0)
                         return -1;

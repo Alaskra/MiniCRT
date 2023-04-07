@@ -55,7 +55,7 @@ FILE* fopen(const char *filename, const char *mode) {
     #define O_CREAT  0100
     #define O_TRUNC  01000
     #define O_APPEND 02000
-    if(strcmp(mode, "w") == 0)  // fix latter: need include string.h?
+    if(strcmp(mode, "w") == 0)
         flags |= O_WRONLY | O_CREAT | O_TRUNC;
     if(strcmp(mode, "w+") == 0)
         flags |= O_RDWR | O_CREAT | O_TRUNC;

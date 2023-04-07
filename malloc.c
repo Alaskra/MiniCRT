@@ -1,12 +1,14 @@
 #include "minicrt.h"
 
+enum state {
+    HEAP_BLOCK_FREE = 0xABABABAB,  // magic number of free block
+    HEAP_BLOCK_USED = 0xCDCDCDCD  // magic number of used block
+};
+
 typedef struct _heap_header {
-    enum {
-        HEAP_BLOCK_FREE = 0xABABABAB,  // magic number of free block
-        HEAP_BLOCK_USED = 0xCDCDCDCD,  // magic number of used block
-    } type;
     // size include header size
     // "unsigned" is shorthand for "unsigned int"
+    enum state type;
     unsigned long size;
     struct _heap_header *next;
     struct _heap_header *prev;
